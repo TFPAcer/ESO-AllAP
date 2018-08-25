@@ -1,0 +1,8 @@
+v1.0:
+- Initial release
+
+v1.1:
+- Ranks for each character are saved
+- Ranks for every character displayed in /ap all
+- Refactored a lot of functions
+- Added /rl as an alias for /reloadui (because typing is hard)

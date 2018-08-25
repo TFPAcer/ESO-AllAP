@@ -1,0 +1,11 @@
+## Title: AllAP
+## Description: AP Counter
+## Author: Acer
+## Version: 1.1
+## APIVersion: 100024
+## SavedVariables: AllAPVars
+
+AllAP.lua
+
+libs/LibStub/LibStub.lua
+libs/LibCustomTitles/LibCustomTitles.lua
