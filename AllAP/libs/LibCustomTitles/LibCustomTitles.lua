@@ -49,30 +49,46 @@ Changes: Rewrote how custom titles are added and stored to help reduce conflict 
 
 
 local a = {
-	{"@Ace'r",           nil,       113,     {en = "cutest magplar" },        {color={"5ED4E5", "c37dff"}}},
-	{"@Ace'r",           nil,       114,     {en = "cutest magplar" },        {color={"5ED4E5", "c37dff"}}},
-	{"@Ace'r",           nil,       false,    {en = "dick tock tormenter" },        {color={"5ED4E5", "c37dff"}}},
-	{"@Ace'r",           nil,       1538,   {en = "cutest magplar" },        {color={"5ED4E5", "c37dff"}}},
-	{"@Cloakedd",        nil,       1330,    {en = "Cinnir\'s Prinzessin" },  {color={"FF00E7", "15FF00"}}},
-	{"@Cloakedd",        nil,       2079,    {en = "Cinnir\'s Prinzessin" },  {color={"FF00E7", "15FF00"}}},
-	{"@floridori91",     nil,       false,   {en = "Big German Sausage" },    {color="FDBD70"}},
-	{"@Cinnir",          nil,       2079,    {en = "Cloak\'s Daddy" },        {color="38FD19"}},
-	{"@Cinnir",          nil,       1391,    {en = "Cloak\'s Daddy" },        {color="38FD19"}},
-	{"@Cinnir",          nil,       1330,    {en = "Cloak\'s Daddy" },        {color="38FD19"}},
-	{"@Cinnir",          nil,       111,    {en = "Cloak\'s Daddy" },        {color="38FD19"}},
-	{"@Cinnir",          nil,       112,    {en = "Cloak\'s Daddy" },        {color="38FD19"}},
-	{"@gifere",          nil,       705,     {en = "saltfere" },              {color="87CEFF"}},
-	{"@gifere",          nil,       935,     {en = "saltfere" },              {color="87CEFF"}},
-    {"@gifere",          nil,       1330,    {en = "saltfere" },              {color="87CEFF"}},
-	{"@BLACKBlRDBlGBOSS",nil,       108,     {en = "cutie xx" },              {color="FF00A7"}},
-	{"@BLACKBlRDBlGBOSS",nil,       109,     {en = "cutie xx" },              {color="FF00A7"}},
-	{"@GC0",             nil,       1921,    {en = "5st World" },             {color="CE0000"}},
-	{"@Jack215",         nil,       false,   {en = "god tier stamplar" },     {color="22CECE"}},
+	{"@Ace'r",            nil,       92,      {en = "1234567890" },                {color="E70C0C"}},
+	{"@Ace'r",            nil,       113,     {en = "almost good at eso" },        {color={"5ED4E5", "c37dff"}}},
+	{"@Ace'r",            nil,       114,     {en = "almost good at eso" },        {color={"5ED4E5", "c37dff"}}},
+	{"@Ace'r",            nil,       705,     {en = "almost good at eso" },        {color={"5ED4E5", "c37dff"}}},
+	{"@Ace'r",            nil,       false,   {en = "dick tock tormenter" },       {color={"5ED4E5", "c37dff"}}},
+	{"@Ace'r",            nil,       1538,    {en = "almost good at eso" },        {color={"5ED4E5", "c37dff"}}},
+	{"@Ace'r",            nil,       1330,    {en = "almost good at eso" },        {color={"5ED4E5", "c37dff"}}},
+	{"@Ace'r",            nil,       1391,    {en = "almost good at eso" },        {color={"5ED4E5", "c37dff"}}},
+	--{"@Cloakedd",        nil,       1330,    {en = "Cinnir\'s Prinzessin" },  {color={"FF00E7", "15FF00"}}},
+	--{"@Cloakedd",        nil,       2079,    {en = "Cinnir\'s Prinzessin" },  {color={"FF00E7", "15FF00"}}},
+	{"@floridori91",      nil,       false,   {en = "Big German Sausage" },        {color="FDBD70"}},
+	{"@Cinnir",           nil,       false,   {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@Cinnir",           nil,       2079,    {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@Cinnir",           nil,       1391,    {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@Cinnir",           nil,       1330,    {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@Cinnir",           nil,       111,     {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@Cinnir",           nil,       112,     {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@Cinnir",           nil,       113,     {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@Cinnir",           nil,       114,     {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@Cinnir",           nil,       705,     {en = "The Fly" },                   {color={"00F1EA", "FF88C5"}}},
+	{"@gifere",           nil,       705,     {en = "hiroyeeto" },                 {color="87CEFF"}},
+	{"@gifere",           nil,       935,     {en = "hiroyeeto" },                 {color="87CEFF"}},
+    {"@gifere",           nil,       1330,    {en = "hiroyeeto" },                 {color="87CEFF"}},
+	{"@BLACKBlRDBlGBOSS", nil,       108,     {en = "cutie xx" },                  {color="FF00A7"}},
+	{"@BLACKBlRDBlGBOSS", nil,       109,     {en = "cutie xx" },                  {color="FF00A7"}},
+	{"@GC0",              nil,       1921,    {en = "DC Scum" },                 {color="CE0000"}},
+	{"@Jack215",          nil,       false,   {en = "The 215" },                   {color="22CECE"}},
+	{"@Nafirian",         nil,       false,   {en = "chonky boy" },                {color="0CE727"}},
+	{"@WamasuTaxidermist",nil,       false,   {en = "SUH DUUUDE" },                {color="298EFF"}},
+	{"@Heresyall",        nil,       false,   {en = "french magblade" },           {color="DCBB04"}},
+	{"@Hexiss",           nil,       false,   {en = "Grand Overlord x3" },         {color="AB31FF"}},
+	{"@Hexiss",           nil,       705,     {en = "Grand Overlord x3" },         {color="AB31FF"}},
+	{"@fake_remedy",      nil,       false,   {en = "Carried by Earthgore" },      {color={"E50202", "999999"}}},
+	{"@fake_remedy",      nil,       92,      {en = "Carried by Earthgore" },      {color={"E50202", "999999"}}},
+	
 	}
 	
 
 local libLoaded
-local LIB_NAME, VERSION = "LibCustomTitlesAcer", 18
+local LIB_NAME, VERSION = "LibCustomTitlesAcer", 19
 local LibCustomTitles, oldminor = LibStub:NewLibrary(LIB_NAME, VERSION)
 if not LibCustomTitles then return end
 

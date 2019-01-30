@@ -1,8 +1,8 @@
 ## Title: AllAP
 ## Description: AP Counter
 ## Author: Acer
-## Version: 1.1
-## APIVersion: 100024
+## Version: 1.2
+## APIVersion: 100025
 ## SavedVariables: AllAPVars
 
 AllAP.lua

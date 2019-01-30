@@ -6,3 +6,7 @@ v1.1:
 - Ranks for every character displayed in /ap all
 - Refactored a lot of functions
 - Added /rl as an alias for /reloadui (because typing is hard)
+
+v1.2:
+- AP needed until next rank
+- AP per hour of time in /played
