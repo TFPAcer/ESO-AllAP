@@ -10,3 +10,9 @@ v1.1:
 v1.2:
 - AP needed until next rank
 - AP per hour of time in /played
+
+v1.3:
+- /ap class returns AP gain by class
+- /ap class+ and /ap all+ give AP for each character in addition to relevant totals
+- Support for character name changes
+- Use AP icon instead of text

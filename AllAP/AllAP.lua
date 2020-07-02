@@ -1,22 +1,23 @@
-AllAP = {}
+AllAP = AllAP or {}
 AllAP.name = "AllAP"
-AllAP.version = "1.2"
+AllAP.version = "1.3"
 AllAP.savedVars = {}
 AllAP.default = {
-	["ap"] = {},
-	["ranks"] = {}
+	["chars"] = {}
 }
-
-local charName = GetUnitName("player")
 
 local function comma_value(n)
 	local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
 	return left..(num:reverse():gsub('(%d%d%d)','%1,'):reverse())..right
 end
 
+local function round(num, numDecimalPlaces)
+  return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+end
+
 function AllAP.OnLoaded(_, addonName)
     if addonName ~= AllAP.name then return end
-	AllAP.savedVars = ZO_SavedVars:NewAccountWide("AllAPVars", 3, nil, AllAP.default)
+	AllAP.savedVars = ZO_SavedVars:NewAccountWide("AllAPVars", 4, nil, AllAP.default)
     AllAP:Init()
 end
 
@@ -27,22 +28,16 @@ function AllAP:Init()
 		
 		AllAP.SaveAP()
 		
-		if args ~= "all" then
-		    local ap = GetUnitAvARankPoints("player")
-			local _, n = GetAvARankProgress(ap)
-			local r, _ = GetUnitAvARank("player")
-			local hp = GetSecondsPlayed() / 3600
-			AllAP.DisplayAPInfo(r, ap, n - ap, hp)
+		if args == "all" then
+			AllAP.DisplayAllAP(false)
+		elseif args == "all+" then
+			AllAP.DisplayAllAP(true)
+		elseif args == "class" then
+			AllAP.DisplayClassAP(false)
+		elseif args == "class+" then
+			AllAP.DisplayClassAP(true)
 		else
-			local charNames = {}
-			local totalAP = 0
-
-			for n, a in pairs(AllAP.savedVars.ap) do
-				table.insert(charNames, n)
-				totalAP = totalAP + a
-			end
-
-        AllAP.DisplayAllAP(charNames, totalAP)
+			AllAP.DisplayAP()
 		end
     end
 	
@@ -52,39 +47,86 @@ function AllAP:Init()
 end
 
 function AllAP.SaveAP()
-    AllAP.savedVars.ap[charName] = GetUnitAvARankPoints("player")
-	AllAP.savedVars.ranks[charName] = GetUnitAvARank("player")
+    AllAP.savedVars.chars[GetCurrentCharacterId()] = { ap = GetUnitAvARankPoints("player"), rank = GetUnitAvARank("player"), class = GetUnitClassId("player"), name = GetUnitName("player") }
 end
 
-function AllAP.DisplayAPInfo(rank, points, rankup, _time)
-	local nextRankName = GetAvARankName(GetUnitGender("player"),rank+1)
-	local aph = points/_time
-	CHAT_SYSTEM:AddMessage("You have earned |c44cc66"..comma_value(points).." |rAlliance Points on|t20:20:"..GetAvARankIcon(rank).."|t"..GetUnitName("player")..".")
-	if rank < 50 then
-		CHAT_SYSTEM:AddMessage("You need |c44cc66"..comma_value(rankup).." |rAlliance Points to reach|t20:20:"..GetAvARankIcon(rank+1).."|t"..nextRankName..".")
+function AllAP.DisplayAP()
+	
+	local _char = AllAP.savedVars.chars[GetCurrentCharacterId()]
+	local _,progress = GetAvARankProgress(_char.ap)
+	local rankup = progress-_char.ap
+	local aph = 3600*_char.ap/GetSecondsPlayed()
+
+	CHAT_SYSTEM:AddMessage(table.concat({"You have earned",AllAP.FormatAPText(_char.ap),"on",AllAP.FormatRankIcon(_char.rank),_char.name,"." }))
+	if _char.rank < 50 then
+		CHAT_SYSTEM:AddMessage(table.concat({"You need",AllAP.FormatAPText(rankup),"to reach",AllAP.FormatRankText(_char.rank+1),"." }))
 	else
-		CHAT_SYSTEM:AddMessage("You cannot rank up beyond |t20:20:"..GetAvARankIcon(50).."|t|c6e70d8"..GetAvARankName(GetUnitGender("player"),50).."|r.")
+		CHAT_SYSTEM:AddMessage(table.concat({"You cannot rank up beyond",AllAP.FormatRankText(50),"." }))
 	end
-	CHAT_SYSTEM:AddMessage("You have gained |c44cc66"..string.format("%.1f", aph).." |rAlliance Points per hour of playtime on this character.")
+	CHAT_SYSTEM:AddMessage(table.concat({"You have gained",AllAP.FormatAPText(aph),"per hour of playtime on",AllAP.FormatRankIcon(_char.rank),_char.name,"."}))
+	
 end
 
-function AllAP.DisplayAllAP(names, a)
-    CHAT_SYSTEM:AddMessage("You have earned |c44cc66"..comma_value(a).." |rAlliance Points on"..AllAP.FormatNames(names))
+function AllAP.DisplayClassAP(ext)
+	
+	local totalAP = {}
+	local chars = {}
+	
+	for i=1,GetNumClasses() do
+		totalAP[i] = 0
+		chars[i] = {}
+	end
+	
+	for k,v in pairs(AllAP.savedVars.chars) do
+		totalAP[v.class] = totalAP[v.class] + v.ap
+		chars[v.class][k] = v
+	end
+	
+	for i=1,#chars do
+		CHAT_SYSTEM:AddMessage(table.concat({"You have earned",AllAP.FormatAPText(totalAP[i]),"on",AllAP.FormatClassText(i)}))
+		if ext then
+			for k,v in pairs(chars[i]) do
+				CHAT_SYSTEM:AddMessage(table.concat({AllAP.FormatRankIcon(v.rank),v.name," has earned ",AllAP.FormatAPText(v.ap)}))
+			end
+		end
+	end
+	
 end
 
-function AllAP.FormatNames(names)
-    local allNames = ""
-    local index, name = next(names, nil)
-    while index do
-        local nextIndex, nextName = next(names, index)
-        local isFirst = string.len(allNames) == 0
-        if not isFirst then
-            allNames = allNames .. (nextIndex and ", " or " and ")
-        end
-        allNames = allNames.."|t20:20:"..GetAvARankIcon(AllAP.savedVars.ranks[name]).."|t"..name
-        index, name = nextIndex, nextName
-    end
-    return allNames
+function AllAP.DisplayAllAP(ext)
+	
+	local totalAP = 0
+	local chars = AllAP.savedVars.chars
+	
+	for k,v in pairs(AllAP.savedVars.chars) do
+		totalAP = totalAP + v.ap
+	end
+	
+    CHAT_SYSTEM:AddMessage(table.concat({"You have earned",AllAP.FormatAPText(totalAP),"in total"}))
+	if ext then
+		for k,v in pairs(chars) do
+			CHAT_SYSTEM:AddMessage(table.concat({AllAP.FormatRankIcon(v.rank),v.name," has earned",AllAP.FormatAPText(v.ap)}))
+		end
+	end
+	
+end
+
+
+function AllAP.FormatAPText(ap)
+	return table.concat({" |c44cc66",comma_value(round(ap,1)),"|r|t16:16:",GetCurrencyKeyboardIcon(2),"|t "})
+end
+
+function AllAP.FormatRankIcon(rank)
+	return table.concat({"|t20:20:",GetAvARankIcon(rank),"|t"})
+end
+
+function AllAP.FormatRankText(rank)
+	return table.concat({"|t20:20:",GetAvARankIcon(rank),"|t|c4abdcf",GetAvARankName(0,rank),"|r"})
+end
+
+function AllAP.FormatClassText(class)
+	local _,_,_,_,_,_,i = GetClassInfo(class)
+	return table.concat({"|t20:20:",i,"|t|ced2f2f",GetClassName(0,class),"|r"})
 end
 
 EVENT_MANAGER:RegisterForEvent(AllAP.name, EVENT_ADD_ON_LOADED, AllAP.OnLoaded)
